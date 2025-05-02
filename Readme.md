@@ -221,43 +221,46 @@ npm run start:dev
 
 ---
 
-## Ferramentas de Teste
+## Como Rodar os Testes
 
-### **Importar Rotas no Insomnia**
-Você pode usar o seguinte arquivo JSON para importar as rotas no Insomnia:
-
-```json
-{
-  "_type": "export",
-  "__export_format": 4,
-  "__export_date": "2025-05-02T10:00:00.000Z",
-  "__export_source": "insomnia.desktop.app:v2023.1.0",
-  "resources": [
-    {
-      "_id": "fld_1",
-      "parentId": null,
-      "modified": 1620000000000,
-      "created": 1620000000000,
-      "name": "Notification Service",
-      "description": "API para gerenciar notificações",
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_1",
-      "parentId": "fld_1",
-      "modified": 1620000000000,
-      "created": 1620000000000,
-      "url": "http://localhost:3000/notifications",
-      "name": "Listar Notificações",
-      "description": "Obtém todas as notificações",
-      "method": "GET",
-      "body": {},
-      "parameters": [],
-      "headers": [],
-      "_type": "request"
-    }
-  ]
-}
+### **1. Rodar Todos os Testes**
+Para executar todos os testes do projeto, use o seguinte comando:
+```bash
+npm run test
 ```
+
+### **2. Rodar Testes em Modo Watch**
+Para executar os testes em modo de observação (útil durante o desenvolvimento):
+```bash
+npm run test:watch
+```
+
+### **3. Gerar Cobertura de Testes**
+Para gerar um relatório de cobertura de testes:
+```bash
+npm run test:cov
+```
+
+Após executar o comando, um relatório será gerado na pasta `coverage/`.
+
+### **4. Estrutura de Testes**
+Os testes estão organizados na pasta `src` em arquivos com a extensão `.spec.ts`. Cada caso de uso e funcionalidade possui seus próprios testes unitários e/ou de integração.
+
+Exemplo de estrutura:
+```
+src/
+├── app/
+│   ├── use-cases/
+│   │   ├── send-notification.spec.ts
+│   │   ├── cancel-notification.spec.ts
+│   │   └── ...
+├── infra/
+│   ├── http/
+│   │   ├── controllers/
+│   │   │   └── notifications.controller.spec.ts
+```
+
+### **5. Configuração do Jest**
+O projeto utiliza o Jest como framework de testes. A configuração do Jest está localizada no arquivo `jest.config.ts` na raiz do projeto. Caso precise ajustar algo, você pode editar esse arquivo.
 
 ---
