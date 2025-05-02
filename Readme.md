@@ -38,7 +38,7 @@ Content-Type: application/json
 200 OK
 {
   "notification": {
-    "id": "abc123",
+    "id": "12345",
     "recipientId": "123",
     "category": "info",
     "content": "Você tem uma nova mensagem!",
@@ -57,7 +57,7 @@ Content-Type: application/json
 
 #### **Exemplo de Requisição**
 ```json
-PATCH /notifications/abc123/cancel
+PATCH /notifications/:id/cancel
 ```
 
 #### **Exemplo de Resposta**
@@ -73,7 +73,7 @@ PATCH /notifications/abc123/cancel
 
 #### **Exemplo de Requisição**
 ```json
-PATCH /notifications/abc123/read
+PATCH /notifications/:id/read
 ```
 
 #### **Exemplo de Resposta**
@@ -89,7 +89,7 @@ PATCH /notifications/abc123/read
 
 #### **Exemplo de Requisição**
 ```json
-PATCH /notifications/abc123/unread
+PATCH /notifications/:id/unread
 ```
 
 #### **Exemplo de Resposta**
@@ -105,7 +105,7 @@ PATCH /notifications/abc123/unread
 
 #### **Exemplo de Requisição**
 ```json
-GET /notifications/count/from/123
+GET /notifications/count/from/:recipientId
 ```
 
 #### **Exemplo de Resposta**
@@ -124,7 +124,7 @@ GET /notifications/count/from/123
 
 #### **Exemplo de Requisição**
 ```json
-GET /notifications/from/123
+GET /notifications/from/:recipientId
 ```
 
 #### **Exemplo de Resposta**
@@ -133,7 +133,7 @@ GET /notifications/from/123
 {
   "notifications": [
     {
-      "id": "abc123",
+      "id": "12345",
       "recipientId": "123",
       "category": "info",
       "content": "Você tem uma nova mensagem!",
@@ -142,7 +142,7 @@ GET /notifications/from/123
       "createdAt": "2025-05-02T10:00:00.000Z"
     },
     {
-      "id": "def456",
+      "id": "67890",
       "recipientId": "123",
       "category": "alert",
       "content": "Sua conta foi atualizada.",
