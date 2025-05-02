@@ -31,4 +31,233 @@ Content-Type: application/json
   "category": "info",
   "content": "Você tem uma nova mensagem!"
 }
+```
 
+#### **Exemplo de Resposta**
+```json
+200 OK
+{
+  "notification": {
+    "id": "abc123",
+    "recipientId": "123",
+    "category": "info",
+    "content": "Você tem uma nova mensagem!",
+    "readAt": null,
+    "cancelAt": null,
+    "createdAt": "2025-05-02T10:00:00.000Z"
+  }
+}
+```
+
+---
+
+### **2. Cancelar Notificação**
+**Endpoint:** `PATCH /notifications/:id/cancel`  
+**Descrição:** Cancela uma notificação específica.  
+
+#### **Exemplo de Requisição**
+```json
+PATCH /notifications/abc123/cancel
+```
+
+#### **Exemplo de Resposta**
+```json
+204 No Content
+```
+
+---
+
+### **3. Marcar Notificação como Lida**
+**Endpoint:** `PATCH /notifications/:id/read`  
+**Descrição:** Marca uma notificação como lida.  
+
+#### **Exemplo de Requisição**
+```json
+PATCH /notifications/abc123/read
+```
+
+#### **Exemplo de Resposta**
+```json
+204 No Content
+```
+
+---
+
+### **4. Marcar Notificação como Não Lida**
+**Endpoint:** `PATCH /notifications/:id/unread`  
+**Descrição:** Marca uma notificação como não lida.  
+
+#### **Exemplo de Requisição**
+```json
+PATCH /notifications/abc123/unread
+```
+
+#### **Exemplo de Resposta**
+```json
+204 No Content
+```
+
+---
+
+### **5. Contar Notificações de um Destinatário**
+**Endpoint:** `GET /notifications/count/from/:recipientId`  
+**Descrição:** Retorna a contagem de notificações de um destinatário específico.  
+
+#### **Exemplo de Requisição**
+```json
+GET /notifications/count/from/123
+```
+
+#### **Exemplo de Resposta**
+```json
+200 OK
+{
+  "count": 5
+}
+```
+
+---
+
+### **6. Listar Notificações de um Destinatário**
+**Endpoint:** `GET /notifications/from/:recipientId`  
+**Descrição:** Retorna todas as notificações de um destinatário específico.  
+
+#### **Exemplo de Requisição**
+```json
+GET /notifications/from/123
+```
+
+#### **Exemplo de Resposta**
+```json
+200 OK
+{
+  "notifications": [
+    {
+      "id": "abc123",
+      "recipientId": "123",
+      "category": "info",
+      "content": "Você tem uma nova mensagem!",
+      "readAt": null,
+      "cancelAt": null,
+      "createdAt": "2025-05-02T10:00:00.000Z"
+    },
+    {
+      "id": "def456",
+      "recipientId": "123",
+      "category": "alert",
+      "content": "Sua conta foi atualizada.",
+      "readAt": "2025-05-01T15:00:00.000Z",
+      "cancelAt": null,
+      "createdAt": "2025-05-01T14:00:00.000Z"
+    }
+  ]
+}
+```
+
+---
+
+## Estrutura do Projeto
+
+### **Camadas**
+1. **Infraestrutura (`infra`)**
+   - Contém os controladores HTTP, mapeadores e integração com o banco de dados (Prisma).
+   - Exemplo: `notifications.controller.ts`, `prisma.service.ts`.
+
+2. **Aplicação (`app`)**
+   - Contém os casos de uso (use-cases) que implementam a lógica de negócios.
+   - Exemplo: `send-notification.ts`, `cancel-notifications.ts`.
+
+3. **Entidades (`entities`)**
+   - Contém as entidades principais do domínio, como `Notification` e `Content`.
+
+---
+
+## Configuração do Banco de Dados
+
+### **Modelo Prisma**
+Arquivo: `prisma/schema.prisma`  
+Descrição: Modelo do banco de dados para o Prisma.
+
+```prisma
+model Notification {
+  id          String   @id @default(uuid())
+  recipientId String
+  content     String
+  category    String
+  readAt      DateTime?
+  cancelAt    DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([recipientId])
+}
+```
+
+---
+
+## Como Executar o Projeto
+
+### **1. Instalar Dependências**
+```bash
+npm install
+```
+
+### **2. Configurar Variáveis de Ambiente**
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+```env
+DATABASE_URL="file:./prisma/dev.db"
+```
+
+### **3. Configurar o Banco de Dados**
+Gere o cliente Prisma e aplique as migrações:
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+### **4. Iniciar o Servidor**
+```bash
+npm run start:dev
+```
+
+---
+
+## Ferramentas de Teste
+
+### **Importar Rotas no Insomnia**
+Você pode usar o seguinte arquivo JSON para importar as rotas no Insomnia:
+
+```json
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-05-02T10:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.1.0",
+  "resources": [
+    {
+      "_id": "fld_1",
+      "parentId": null,
+      "modified": 1620000000000,
+      "created": 1620000000000,
+      "name": "Notification Service",
+      "description": "API para gerenciar notificações",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_1",
+      "parentId": "fld_1",
+      "modified": 1620000000000,
+      "created": 1620000000000,
+      "url": "http://localhost:3000/notifications",
+      "name": "Listar Notificações",
+      "description": "Obtém todas as notificações",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "_type": "request"
+    }
+  ]
+}
+```
+
+---
